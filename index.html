@@ -69,7 +69,7 @@
     }
     .nav-logo {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.4rem; font-weight: 900;
+      font-size: 1.05rem; font-weight: 900;
       color: var(--off-white); text-decoration: none;
       letter-spacing: 0.06em; text-transform: uppercase;
     }
@@ -78,12 +78,14 @@
       display: flex; align-items: center; gap: 2rem;
     }
     .nav-links a {
-      color: var(--black); text-decoration: none;
+      color: var(--off-white); text-decoration: none;
       font-size: 0.78rem; font-weight: 500;
       letter-spacing: 0.12em; text-transform: uppercase;
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--pink); }
+    nav.scrolled .nav-links a { color: var(--black); }
+    nav.scrolled .nav-links a:hover { color: var(--pink); }
     .lang-switcher {
       display: flex; gap: 2px;
       background: var(--warm-gray);
@@ -133,70 +135,106 @@
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
     }
-    /* large decorative circle */
-    .hero::before {
-      content: '';
+    /* subtle dot grid */
+    .hero-bg-grid {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(rgba(232,24,93,0.18) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+    /* faint large filled circle – top right */
+    .hero-bg-circle {
       position: absolute;
-      width: clamp(340px, 55vw, 700px);
-      height: clamp(340px, 55vw, 700px);
+      width: clamp(300px, 48vw, 620px);
+      height: clamp(300px, 48vw, 620px);
       border-radius: 50%;
       background: var(--pink);
-      bottom: -12%; right: -8%;
+      opacity: 0.055;
+      top: -18%; right: -8%;
+      pointer-events: none;
+    }
+    /* outlined circle – bottom left */
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: clamp(180px, 26vw, 360px);
+      height: clamp(180px, 26vw, 360px);
+      border-radius: 50%;
+      border: 1px solid rgba(232,24,93,0.14);
+      bottom: -8%; left: -5%;
       pointer-events: none;
     }
     .hero-content {
       position: relative; z-index: 10;
-      padding: 6rem 2rem 4rem;
+      padding: 6rem 2rem 3.5rem;
       max-width: 1100px; margin: 0 auto;
       width: 100%;
     }
-    .hero-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.72rem; font-weight: 500;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--warm-gray);
-      margin-bottom: 1.25rem;
-    }
     .hero-name {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: clamp(3.5rem, 11vw, 9.5rem);
+      font-size: clamp(2.2rem, 5vw, 5rem);
       font-weight: 900;
       color: var(--off-white);
-      line-height: 0.92;
+      line-height: 0.96;
       letter-spacing: -0.01em;
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
     .hero-name em {
       font-style: italic;
       color: var(--pink);
     }
-    .hero-subtitle {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: clamp(1rem, 2.4vw, 1.45rem);
-      font-weight: 700;
+    .hero-actions {
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .hero-link-secondary {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(237,234,229,0.45);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(237,234,229,0.18);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .hero-link-secondary:hover { color: var(--pink); border-color: var(--pink); }
+    /* ── Hero pills ── */
+    .hero-pills-inner {
+      display: flex; align-items: center;
+      flex-wrap: wrap; gap: 0.6rem;
+      padding: 0;
+      margin-top: 1.75rem;
+    }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
       color: var(--warm-gray);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.45rem 1.1rem;
+      white-space: nowrap;
     }
-    .hero-body {
-      font-size: clamp(0.9rem, 1.4vw, 1rem);
-      color: rgba(237,234,229,0.65);
-      max-width: 32rem;
-      line-height: 1.8;
-      margin-bottom: 2.5rem;
+    .hero-pill-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--pink); flex-shrink: 0;
     }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+    /* scroll hint */
+    .hero-scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      color: rgba(237,234,229,0.2);
+      text-decoration: none;
+      animation: float-down 2.6s ease-in-out infinite;
+      display: block;
     }
-    .scroll-indicator {
-      display: inline-block;
-      margin-top: 1rem; animation: bounce 2s infinite;
-      opacity: 0.45; cursor: pointer;
+    @keyframes float-down {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(7px); }
     }
-
     /* ── Buttons ── */
     .btn-primary {
       display: inline-flex; align-items: center;
@@ -483,7 +521,7 @@
       position: relative;
     }
     .modal-close {
-      position: absolute; top: 1.25rem; right: 1.25rem; z-index: 600;
+      position: fixed; top: 1.25rem; right: 1.25rem; z-index: 600;
       background: var(--pink); color: #fff;
       border: none; cursor: pointer;
       width: 44px; height: 44px;
@@ -614,10 +652,11 @@
     .search-wrap { position: relative; display: flex; align-items: center; }
     .search-toggle {
       background: none; border: none; cursor: pointer;
-      color: var(--black); padding: 4px;
+      color: var(--off-white); padding: 4px;
       display: flex; align-items: center;
       transition: color 0.2s;
     }
+    nav.scrolled .search-toggle { color: var(--black); }
     .search-toggle:hover { color: var(--pink); }
     .search-box {
       display: none; align-items: center;
@@ -697,11 +736,7 @@
       .hero-content {
         padding: 7rem 1.5rem 6rem;
       }
-      .hero::before {
-        width: clamp(260px, 80vw, 400px);
-        height: clamp(260px, 80vw, 400px);
-        bottom: -6%; right: -14%;
-      }
+      .hero-scroll-hint { bottom: 1.5rem; }
       .search-box {
         position: fixed;
         top: 60px; left: 0; right: 0;
@@ -725,16 +760,21 @@
   <!-- ═══════════════════ NAVIGATION ═══════════════════ -->
   <nav id="navbar">
     <div class="nav-inner">
-      <a href="#" class="nav-logo">MU</a>
+      <a href="#" class="nav-logo">Margarita Udovychenko</a>
 
       <!-- Desktop links + lang -->
       <div class="nav-links">
-        <a href="#about" class="t-de">Über mich</a>
-        <a href="#about" class="t-en">About</a>
-        <a href="#projects" class="t-de">Projekte</a>
-        <a href="#projects" class="t-en">Projects</a>
+        <a href="about.html" class="t-de">Über mich</a>
+        <a href="about.html" class="t-en">About</a>
+        <a href="#projects" class="t-de">Case Studies</a>
+        <a href="#projects" class="t-en">Case Studies</a>
         <a href="#contact" class="t-de">Kontakt</a>
         <a href="#contact" class="t-en">Contact</a>
+        <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+        <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+        <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
         <div class="search-wrap" id="search-wrap">
           <button class="search-toggle" id="search-toggle" onclick="toggleSearch()" aria-label="Suche">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -770,158 +810,39 @@
     </div>
     <!-- Mobile menu -->
     <div id="mobile-menu" class="mobile-menu">
-      <a href="#about" onclick="closeMenu()" class="t-de">Über mich</a>
-      <a href="#about" onclick="closeMenu()" class="t-en">About</a>
-      <a href="#projects" onclick="closeMenu()" class="t-de">Projekte</a>
-      <a href="#projects" onclick="closeMenu()" class="t-en">Projects</a>
+      <a href="about.html" class="t-de">Über mich</a>
+      <a href="about.html" class="t-en">About</a>
+      <a href="#projects" onclick="closeMenu()">Case Studies</a>
       <a href="#contact" onclick="closeMenu()" class="t-de">Kontakt</a>
       <a href="#contact" onclick="closeMenu()" class="t-en">Contact</a>
+      <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+      <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </nav>
 
   <!-- ═══════════════════ HERO ═══════════════════ -->
   <section class="hero">
+    <div class="hero-bg-grid" aria-hidden="true"></div>
+    <div class="hero-bg-circle" aria-hidden="true"></div>
+
     <div class="hero-content">
-      <p class="hero-label">
-        <span class="t-de">Product Designerin · UX/UI Designerin</span>
-        <span class="t-en">Product Designer · UX/UI Designer</span>
-      </p>
-      <h1 class="hero-name">Margarita<br><em>Udovy&shy;chenko</em></h1>
-      <p class="hero-subtitle">
-        <span class="t-de">Teamplayerin · Product Thinker · Problem Solver</span>
-        <span class="t-en">Teamplayer · Product Thinker · Problem Solver</span>
-      </p>
-      <p class="hero-body">
-        <span class="t-de">Research-getrieben. Strategisch denkend. Business-orientiert. Mit dem Anspruch, Dinge zu schaffen, die wirklich funktionieren, echten Mehrwert bieten – und dabei auch schön sind.</span>
-        <span class="t-en">Research-driven. Strategy-minded. Business-oriented. With the ambition to make things that truly work, deliver real value — and look great doing it.</span>
-      </p>
-      <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-        <a href="#projects" class="btn-primary">
-          <span class="t-de">Meine Arbeit</span>
-          <span class="t-en">My Work</span>
-        </a>
+      <h1 class="hero-name">
+        <span class="t-de">Research-getriebene<br>Product Designerin,<br><em>die Insights</em><br>in Produkte verwandelt,<br>die wirklich zählen.</span>
+        <span class="t-en">Research-driven<br>Product Designer<br><em>turning insights</em><br>into products<br>that matter.</span>
+      </h1>
+      <div class="hero-pills-inner">
+        <span class="hero-pill"><span class="hero-pill-dot"></span><span class="t-de">5+ Jahre Erfahrung</span><span class="t-en">5+ Years Experience</span></span>
+        <span class="hero-pill"><span class="hero-pill-dot"></span>B2B / SaaS</span>
+        <span class="hero-pill"><span class="hero-pill-dot"></span>Product Designer</span>
+        <span class="hero-pill"><span class="hero-pill-dot"></span>UX/UI Designer</span>
+        <span class="hero-pill"><span class="hero-pill-dot"></span><span class="t-de">Berlin</span><span class="t-en">Based in Berlin</span></span>
       </div>
     </div>
-  </section>
 
-  <!-- ═══════════════════ ABOUT ═══════════════════ -->
-  <section id="about" class="about-bg">
-    <div class="container-sm">
-      <p class="section-eyebrow">
-        <span class="t-de">Über mich</span>
-        <span class="t-en">About me</span>
-      </p>
-      <div class="about-grid" style="align-items:start;">
-
-        <!-- Left: Heading + Text -->
-        <div class="about-text">
-          <h2 class="section-title" style="text-align:left; margin-bottom:2rem;">
-            <span class="t-de">Hallo!<br>Ich bin Rita.</span>
-            <span class="t-en">Hi!<br>I'm Rita.</span>
-          </h2>
-          <!-- DE -->
-          <div class="b-de">
-            <p>Product Designerin mit 5 Jahren Erfahrung als Designerin und einem Hintergrund im Projektmanagement, der mich früh gelehrt hat: gutes Design endet nicht beim Pixel – es beginnt mit dem richtigen Problem.</p>
-            <p>Bei POLYAS bin ich Teil des Product Teams und verantworte Design für B2B- und SaaS-Produkte – von der Strategie über Research und Konzeption bis zur Umsetzung und Erfolgsmessung. Was mich antreibt: der Moment, wenn ein komplexes Problem plötzlich eine klare, elegante Lösung bekommt.</p>
-            <p>Ich denke in Produkt, arbeite an der Schnittstelle von Nutzer, Business und Technologie – und bringe Teams dazu, gemeinsam eine Lösung zu entwickeln, der alle vertrauen.</p>
-            <!-- Metrik -->
-            <div style="display:flex; gap:1.5rem; margin-top:2rem; flex-wrap:wrap;">
-              <div style="border-left:3px solid var(--pink); padding-left:0.85rem;">
-                <div style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:900; color:var(--pink); line-height:1;">+46%</div>
-                <div style="font-size:0.78rem; color:#555; line-height:1.4; margin-top:0.2rem;">Zufriedenheit mit Design &amp; Nutzerfreundlichkeit</div>
-              </div>
-              <div style="border-left:3px solid var(--pink); padding-left:0.85rem;">
-                <div style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:900; color:var(--pink); line-height:1;">6</div>
-                <div style="font-size:0.78rem; color:#555; line-height:1.4; margin-top:0.2rem;">B2B &amp; SaaS Produkte</div>
-              </div>
-              <div style="border-left:3px solid var(--pink); padding-left:0.85rem;">
-                <div style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:900; color:var(--pink); line-height:1;">5</div>
-                <div style="font-size:0.78rem; color:#555; line-height:1.4; margin-top:0.2rem;">Jahre Erfahrung</div>
-              </div>
-            </div>
-          </div>
-          <!-- EN -->
-          <div class="b-en">
-            <p>Product Designer with 5 years of experience as a designer and a background in project management that taught me early on: good design doesn't stop at the pixel – it starts with the right problem.</p>
-            <p>At POLYAS, I'm part of the Product Team, owning design for B2B and SaaS products – from strategy through research and concept to implementation and measurement. What drives me: that moment when a complex problem suddenly finds a clear, elegant solution.</p>
-            <p>I think in product, work at the intersection of user, business, and technology – and help teams build a shared solution they all believe in.</p>
-            <!-- Metric -->
-            <div style="display:flex; gap:1.5rem; margin-top:2rem; flex-wrap:wrap;">
-              <div style="border-left:3px solid var(--pink); padding-left:0.85rem;">
-                <div style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:900; color:var(--pink); line-height:1;">+46%</div>
-                <div style="font-size:0.78rem; color:#555; line-height:1.4; margin-top:0.2rem;">Satisfaction with design &amp; usability</div>
-              </div>
-              <div style="border-left:3px solid var(--pink); padding-left:0.85rem;">
-                <div style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:900; color:var(--pink); line-height:1;">6</div>
-                <div style="font-size:0.78rem; color:#555; line-height:1.4; margin-top:0.2rem;">B2B &amp; SaaS products</div>
-              </div>
-              <div style="border-left:3px solid var(--pink); padding-left:0.85rem;">
-                <div style="font-family:'Barlow Condensed',sans-serif; font-size:2rem; font-weight:900; color:var(--pink); line-height:1;">5</div>
-                <div style="font-size:0.78rem; color:#555; line-height:1.4; margin-top:0.2rem;">Years of experience</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: Expertise Box -->
-        <div class="expertise-box">
-          <h3>Expertise &amp; Tools</h3>
-          <div class="expertise-block">
-            <h4>
-              <span class="t-de">Design &amp; Prototyping</span>
-              <span class="t-en">Design &amp; Prototyping</span>
-            </h4>
-            <p>Figma · Adobe InDesign · Miro · Adobe After Effects</p>
-          </div>
-          <div class="expertise-block">
-            <h4>
-              <span class="t-de">UX Research &amp; Testing</span>
-              <span class="t-en">UX Research &amp; Testing</span>
-            </h4>
-            <p>
-              <span class="t-de">User Research · Usability Testing · Heuristische Evaluation · User Journey Mapping · Informationsarchitektur · Accessibility (WCAG 2.0)</span>
-              <span class="t-en">User Research · Usability Testing · Heuristic Evaluation · User Journey Mapping · Information Architecture · Accessibility (WCAG 2.0)</span>
-            </p>
-          </div>
-          <div class="expertise-block">
-            <h4>
-              <span class="t-de">Product &amp; Strategie</span>
-              <span class="t-en">Product &amp; Strategy</span>
-            </h4>
-            <p>
-              <span class="t-de">Design Thinking · RICE-Priorisierung · Stakeholder Management · OKR-aligned Design · Design Systems</span>
-              <span class="t-en">Design Thinking · RICE Prioritization · Stakeholder Management · OKR-aligned Design · Design Systems</span>
-            </p>
-          </div>
-          <div class="expertise-block">
-            <h4>
-              <span class="t-de">Kollaboration &amp; Prozess</span>
-              <span class="t-en">Collaboration &amp; Process</span>
-            </h4>
-            <p>
-              <span class="t-de">Agile (Scrum, Kanban) · Workshop-Moderation · Developer Handoff · Design Critique</span>
-              <span class="t-en">Agile (Scrum, Kanban) · Workshop Facilitation · Developer Handoff · Design Critique</span>
-            </p>
-          </div>
-          <div class="expertise-block">
-            <h4>
-              <span class="t-de">AI &amp; Neue Tools</span>
-              <span class="t-en">AI &amp; Emerging Tools</span>
-            </h4>
-            <p>Figma Make · Claude Code · Midjourney · Stitch · Notion AI · Cursor</p>
-          </div>
-          <div class="expertise-block">
-            <h4>
-              <span class="t-de">Zertifizierungen</span>
-              <span class="t-en">Certifications</span>
-            </h4>
-            <p class="method-row">User Experience Designer — Experience Design Institut, 2021</p>
-            <p class="method-row">Certified Associate in Project Management (CAPM) — PMI, 2021</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <a href="#projects" class="hero-scroll-hint" aria-label="Scroll down">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </a>
   </section>
 
   <!-- ═══════════════════ PROJECTS ═══════════════════ -->
@@ -990,7 +911,7 @@
       <div class="project-row reverse">
         <div class="img-col" style="padding:0;">
           <div class="img-wrap-phone" style="width:100%;height:100%;min-height:340px;">
-            <img src="https://portfolioum.lovable.app/assets/project-2-phone-mockup-BHM0p6SZ.png"
+            <img src="voting-phone-mockup.png"
                  alt="POLYAS New Voting Client">
           </div>
         </div>
