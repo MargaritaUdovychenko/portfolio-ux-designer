@@ -27,8 +27,8 @@
 
     body {
       font-family: 'DM Sans', sans-serif;
-      color: var(--black);
-      background: var(--off-white);
+      color: var(--off-white);
+      background: var(--black);
       font-size: 16px;
       line-height: 1.6;
     }
@@ -132,7 +132,7 @@
     }
 
     /* ── About section ── */
-    .about-bg { background: var(--off-white); padding: 7rem 0 5.5rem; }
+    .about-bg { background: var(--black); padding: 7rem 0 5.5rem; }
     .about-grid {
       display: grid; gap: 3.5rem;
       grid-template-columns: 1fr;
@@ -141,13 +141,13 @@
       .about-grid { grid-template-columns: 1fr 1fr; }
     }
     .about-text p + p { margin-top: 1.25rem; }
-    .about-text p { font-size: 0.97rem; line-height: 1.85; color: #333; }
+    .about-text p { font-size: 0.97rem; line-height: 1.85; color: var(--warm-gray); }
     .about-bullets {
       list-style: none;
       display: flex; flex-direction: column; gap: 1.25rem;
     }
     .about-bullets li {
-      font-size: 0.97rem; line-height: 1.85; color: #333;
+      font-size: 0.97rem; line-height: 1.85; color: var(--warm-gray);
       padding-left: 1.1rem;
       border-left: 3px solid var(--pink);
     }
@@ -164,7 +164,7 @@
       font-family: 'Barlow Condensed', sans-serif;
       font-size: clamp(2.5rem, 6vw, 5rem);
       font-weight: 900; text-transform: uppercase;
-      line-height: 0.95; color: var(--black);
+      line-height: 0.95; color: var(--off-white);
       margin-bottom: 2rem; letter-spacing: -0.01em;
       text-align: left;
     }
@@ -172,16 +172,16 @@
     /* ── CV Button ── */
     .btn-cv {
       display: inline-flex; align-items: center; gap: 0.55rem;
-      background: var(--black); color: var(--off-white);
+      background: transparent; color: var(--off-white);
       font-family: 'DM Sans', sans-serif;
       font-weight: 600; font-size: 0.78rem;
       letter-spacing: 0.12em; text-transform: uppercase;
       padding: 0.85rem 2rem;
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: background 0.2s, border-color 0.2s;
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
     }
-    .btn-cv:hover { background: var(--pink); border-color: var(--pink); }
+    .btn-cv:hover { background: var(--pink); border-color: var(--pink); color: #fff; }
 
     /* ── Expertise box ── */
     .expertise-box {
