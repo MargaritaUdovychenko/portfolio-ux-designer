@@ -44,8 +44,12 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(237,234,229,0.97);
+      background: rgba(17,17,17,0.95);
       backdrop-filter: blur(12px);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(237,234,229,0.97);
       box-shadow: 0 1px 0 var(--warm-gray);
     }
     .nav-inner {
@@ -56,19 +60,22 @@
     .nav-logo {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 1.05rem; font-weight: 900;
-      color: var(--black); text-decoration: none;
+      color: var(--off-white); text-decoration: none;
       letter-spacing: 0.06em; text-transform: uppercase;
     }
+    nav.scrolled .nav-logo { color: var(--black); }
     .nav-links {
       display: flex; align-items: center; gap: 2rem;
     }
     .nav-links a {
-      color: var(--black); text-decoration: none;
+      color: var(--off-white); text-decoration: none;
       font-size: 0.78rem; font-weight: 500;
       letter-spacing: 0.12em; text-transform: uppercase;
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--pink); }
+    nav.scrolled .nav-links a { color: var(--black); }
+    nav.scrolled .nav-links a:hover { color: var(--pink); }
     .nav-links a.active { color: var(--pink); }
     .lang-switcher {
       display: flex; gap: 2px;
@@ -88,8 +95,9 @@
     .lang-btn:not(.active):hover { color: var(--pink); }
     .hamburger {
       display: none; background: none; border: none;
-      cursor: pointer; padding: 4px; color: var(--black);
+      cursor: pointer; padding: 4px; color: var(--off-white);
     }
+    nav.scrolled .hamburger { color: var(--black); }
     .mobile-menu {
       display: none; position: absolute;
       top: 60px; left: 0; right: 0;
@@ -722,6 +730,15 @@
       if (cvDe) cvDe.style.display = lang === 'de' ? 'inline-flex' : 'none';
       if (cvEn) cvEn.style.display = lang === 'en' ? 'inline-flex' : 'none';
     }
+
+    // ── Nav scroll behaviour ──
+    const navbar = document.getElementById('navbar');
+    function updateNav() {
+      if (window.scrollY > 40) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
 
     function toggleMenu() {
       document.getElementById('mobile-menu').classList.toggle('open');
