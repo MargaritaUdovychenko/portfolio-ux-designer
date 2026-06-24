@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
+<script>
+  (function(){var l=localStorage.getItem('lang');if(l==='en'){document.documentElement.classList.add('lang-en');document.documentElement.lang='en';}})();
+</script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1349,10 +1352,14 @@
         imgEn.style.display = lang === 'en' ? 'block' : 'none';
       }
     }
-    // Restore saved language on load
+    // Sync button states on load
     (function() {
-      const saved = localStorage.getItem('lang');
-      if (saved && saved !== 'de') setLang(saved);
+      const saved = localStorage.getItem('lang') || 'de';
+      ['btn-de','btn-en','btn-de-m','btn-en-m'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.classList.toggle('active', (id.includes('de') && saved === 'de') || (id.includes('en') && saved === 'en'));
+      });
     })();
 
     // ── Navbar scroll ──
