@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Über mich – Margarita Udovychenko</title>
+  <meta name="description" content="Über Margarita Udovychenko – Product Designerin mit 5 Jahren Erfahrung in B2B und SaaS.">
+  <meta name="author" content="Margarita Udovychenko">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --pink:      #E8185D;
+      --pink-dark: #C4134F;
+      --pink-10:   rgba(232,24,93,0.10);
+      --pink-20:   rgba(232,24,93,0.20);
+      --black:     #111111;
+      --off-white: #EDEAE5;
+      --warm-gray: #D6D2CC;
+      --mid-gray:  #888480;
+      --card-bg:   #F5F2EE;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--black);
+      background: var(--off-white);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── Language switching ── */
+    .t-en, .b-en { display: none; }
+    html.lang-en .t-de { display: none; }
+    html.lang-en .b-de { display: none; }
+    html.lang-en .t-en { display: inline; }
+    html.lang-en .b-en { display: block; }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(237,234,229,0.97);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--warm-gray);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.05rem; font-weight: 900;
+      color: var(--black); text-decoration: none;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+    }
+    .nav-links a {
+      color: var(--black); text-decoration: none;
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-links a.active { color: var(--pink); }
+    .lang-switcher {
+      display: flex; gap: 2px;
+      background: var(--warm-gray);
+      padding: 3px; border-radius: 4px;
+    }
+    .lang-btn {
+      padding: 3px 10px; border-radius: 2px;
+      font-size: 0.72rem; font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; border: none;
+      background: transparent; color: var(--mid-gray);
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+    }
+    .lang-btn.active { background: var(--pink); color: #fff; }
+    .lang-btn:not(.active):hover { color: var(--pink); }
+    .hamburger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 4px; color: var(--black);
+    }
+    .mobile-menu {
+      display: none; position: absolute;
+      top: 60px; left: 0; right: 0;
+      background: var(--off-white);
+      border-top: 2px solid var(--pink);
+      padding: 0.5rem 1rem 1rem;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block; padding: 0.75rem 0.5rem;
+      color: var(--black); text-decoration: none;
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      border-bottom: 1px solid var(--warm-gray);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--pink); }
+    .mobile-menu a.t-en { display: none; }
+    html.lang-en .mobile-menu a.t-de { display: none; }
+    html.lang-en .mobile-menu a.t-en { display: block; }
+    .nav-mobile-right {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .container-sm { max-width: 60rem; margin: 0 auto; padding: 0 2rem; }
+
+
+    /* ── About photo ── */
+    .about-photo-wrap {
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .about-photo {
+      width: 100%; max-width: 360px;
+      height: auto; display: block;
+      filter: grayscale(15%);
+    }
+
+    /* ── About section ── */
+    .about-bg { background: var(--off-white); padding: 7rem 0 5.5rem; }
+    .about-grid {
+      display: grid; gap: 3.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .about-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .about-text p + p { margin-top: 1.25rem; }
+    .about-text p { font-size: 0.97rem; line-height: 1.85; color: #333; }
+    .about-bullets {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+    .about-bullets li {
+      font-size: 0.97rem; line-height: 1.85; color: #333;
+      padding-left: 1.1rem;
+      border-left: 3px solid var(--pink);
+    }
+
+    /* ── Section labels ── */
+    .section-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 1.75rem;
+      text-align: left;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900; text-transform: uppercase;
+      line-height: 0.95; color: var(--black);
+      margin-bottom: 2rem; letter-spacing: -0.01em;
+      text-align: left;
+    }
+
+    /* ── CV Button ── */
+    .btn-cv {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      background: var(--black); color: var(--off-white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600; font-size: 0.78rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-cv:hover { background: var(--pink); border-color: var(--pink); }
+
+    /* ── Expertise box ── */
+    .expertise-box {
+      background: var(--black);
+      color: var(--off-white);
+      padding: 2.25rem;
+      position: relative; overflow: hidden;
+    }
+    .expertise-box::after {
+      content: '';
+      position: absolute;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: var(--pink);
+      bottom: -60px; right: -60px;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+    .expertise-box h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 900;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--off-white); margin-bottom: 1.75rem;
+    }
+    .expertise-box h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600; color: var(--pink);
+      margin-bottom: 0.35rem; font-size: 0.72rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    .expertise-box p,
+    .expertise-box .method-row {
+      font-size: 0.85rem; color: var(--warm-gray); line-height: 1.6;
+    }
+    .expertise-block + .expertise-block {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .method-row + .method-row { margin-top: 0.35rem; }
+
+    /* ── Learning section ── */
+    .learning-bg { background: var(--black); padding: 5.5rem 0; }
+    .learning-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900; text-transform: uppercase;
+      color: var(--off-white); line-height: 0.95;
+      letter-spacing: -0.01em; margin-bottom: 3rem;
+    }
+    .learning-title em { font-style: italic; color: var(--pink); }
+    .learning-list { display: flex; flex-direction: column; gap: 0; }
+    .learning-entry {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 1.5rem;
+      padding: 1.75rem 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .learning-entry:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .learning-year {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--mid-gray);
+      padding-top: 0.2rem;
+    }
+    .learning-degree {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem; font-weight: 800;
+      text-transform: uppercase; color: var(--off-white);
+      letter-spacing: 0.02em; line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+    .learning-institution {
+      font-size: 0.88rem; color: var(--mid-gray);
+      line-height: 1.5;
+    }
+
+    /* ── Certificates carousel ── */
+    .certs-bg { background: var(--black); padding-bottom: 5.5rem; }
+    .certs-header {
+      max-width: 60rem; margin: 0 auto;
+      padding: 0 2rem 2rem;
+    }
+    .certs-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 0.5rem;
+    }
+    .carousel-track-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      position: relative;
+      cursor: grab;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .carousel-track-wrap::-webkit-scrollbar { display: none; }
+    .carousel-track-wrap:active { cursor: grabbing; }
+    .carousel-track {
+      display: flex;
+      gap: 1.25rem;
+      padding: 0 2rem;
+      width: max-content;
+      user-select: none;
+    }
+    .cert-card {
+      flex: 0 0 260px;
+      background: #1A1A1A;
+      border: 1px solid rgba(255,255,255,0.07);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .cert-card:hover { border-color: var(--pink); }
+    .cert-card img {
+      width: 100%; height: 180px;
+      object-fit: cover; object-position: top;
+      display: block;
+      filter: grayscale(20%);
+      transition: filter 0.2s;
+    }
+    .cert-card:hover img { filter: grayscale(0%); }
+    .cert-card-label {
+      padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--warm-gray);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .carousel-nav {
+      display: flex; gap: 0.5rem;
+      padding: 1.5rem 2rem 0;
+      max-width: 60rem; margin: 0 auto;
+    }
+    .carousel-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.15);
+      color: var(--off-white); cursor: pointer;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .carousel-btn:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--black);
+      border-top: 2px solid var(--pink);
+      color: rgba(237,234,229,0.5);
+      padding: 1.25rem 2rem;
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1.25rem;
+      font-size: 0.8rem;
+    }
+    .footer-inner .footer-copy { color: rgba(237,234,229,0.4); }
+    .footer-sep { color: rgba(237,234,229,0.2); }
+    .footer-inner a {
+      color: rgba(237,234,229,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-inner a:hover { color: var(--pink); }
+    @media (max-width: 600px) {
+      .footer-inner { gap: 0.4rem 0.9rem; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 767px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+    }
+    @media (min-width: 768px) {
+      .nav-mobile-right { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Margarita Udovychenko</a>
+      <div class="nav-links">
+        <a href="about.html" class="active t-de">Über mich</a>
+        <a href="about.html" class="active t-en">About</a>
+        <a href="index.html#projects">Case Studies</a>
+        <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+        <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+        <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <div class="lang-switcher">
+          <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+      <div class="nav-mobile-right">
+        <div class="lang-switcher">
+          <button class="lang-btn active" id="btn-de-m" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="btn-en-m" onclick="setLang('en')">EN</button>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="about.html" class="t-de">Über mich</a>
+      <a href="about.html" class="t-en">About</a>
+      <a href="index.html#projects">Case Studies</a>
+      <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+      <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ ABOUT ═══════════════════ -->
+  <section class="about-bg">
+    <div class="container-sm">
+      <div class="about-grid" style="align-items:start;">
+
+        <!-- Left: Photo + Text -->
+        <div class="about-text">
+          <div class="about-photo-wrap">
+            <img src="rita.jpg" alt="Margarita Udovychenko" class="about-photo">
+          </div>
+          <!-- DE -->
+          <div class="b-de">
+            <ul class="about-bullets">
+              <li>Mit 5 Jahren Erfahrung im Product Design und 8 Jahren bei POLYAS als einzige Designerin im Product Team arbeite ich an hochkomplexen, ethisch sensiblen digitalen Produkten, die echte demokratische Prozesse unterstützen. Diese Verantwortung hat meinen Blick für Präzision, Vertrauen und Wirkung im Design nachhaltig geprägt.</li>
+              <li>Durch meinen Hintergrund im Projektmanagement bringe ich eine seltene Kombination aus: Ich gestalte nicht nur Interfaces, sondern verstehe auch, wie Produkte entstehen, priorisiert werden und in multidisziplinären Teams erfolgreich umgesetzt werden.</li>
+              <li>Mich motiviert die Arbeit an Produkten, die echten Einfluss haben. Ich arbeite am liebsten dort, wo Design nicht als Oberfläche verstanden wird, sondern als strategisches Werkzeug, um komplexe Probleme zu lösen und messbaren Mehrwert zu schaffen.</li>
+            </ul>
+          </div>
+          <!-- EN -->
+          <div class="b-en">
+            <ul class="about-bullets">
+              <li>With 5 years in Product Design and 8 years at POLYAS as the sole designer on the product team, I work on highly complex, ethically sensitive digital products that support real democratic processes. That responsibility has shaped my eye for precision, trust, and impact in design.</li>
+              <li>My background in project management gives me a rare combination: I don't just design interfaces — I understand how products are built, prioritized, and successfully delivered within multidisciplinary teams.</li>
+              <li>I'm motivated by work that has real influence. I thrive where design isn't seen as surface — but as a strategic tool for solving complex problems and creating measurable value.</li>
+            </ul>
+          </div>
+          <div style="margin-top: 2rem;">
+            <a href="cv-de.pdf" target="_blank" class="btn-cv" id="cv-btn-de">Lebenslauf</a>
+            <a href="cv-en.pdf" target="_blank" class="btn-cv" id="cv-btn-en" style="display:none;">Resume</a>
+          </div>
+        </div>
+
+        <!-- Right: Expertise Box -->
+        <div class="expertise-box">
+          <h3>Expertise &amp; Tools</h3>
+          <div class="expertise-block">
+            <h4>
+              <span class="t-de">Design &amp; Prototyping</span>
+              <span class="t-en">Design &amp; Prototyping</span>
+            </h4>
+            <p>Figma · Adobe InDesign · Miro · Adobe After Effects</p>
+          </div>
+          <div class="expertise-block">
+            <h4>
+              <span class="t-de">UX Research &amp; Testing</span>
+              <span class="t-en">UX Research &amp; Testing</span>
+            </h4>
+            <p>
+              <span class="t-de">User Research · Usability Testing · Heuristische Evaluation · User Journey Mapping · Informationsarchitektur · Accessibility (WCAG 2.0)</span>
+              <span class="t-en">User Research · Usability Testing · Heuristic Evaluation · User Journey Mapping · Information Architecture · Accessibility (WCAG 2.0)</span>
+            </p>
+          </div>
+          <div class="expertise-block">
+            <h4>
+              <span class="t-de">Product &amp; Strategie</span>
+              <span class="t-en">Product &amp; Strategy</span>
+            </h4>
+            <p>
+              <span class="t-de">Design Thinking · RICE-Priorisierung · Stakeholder Management · OKR-aligned Design · Design Systems</span>
+              <span class="t-en">Design Thinking · RICE Prioritization · Stakeholder Management · OKR-aligned Design · Design Systems</span>
+            </p>
+          </div>
+          <div class="expertise-block">
+            <h4>
+              <span class="t-de">Kollaboration &amp; Prozess</span>
+              <span class="t-en">Collaboration &amp; Process</span>
+            </h4>
+            <p>
+              <span class="t-de">Agile (Scrum, Kanban) · Workshop-Moderation · Developer Handoff · Design Critique</span>
+              <span class="t-en">Agile (Scrum, Kanban) · Workshop Facilitation · Developer Handoff · Design Critique</span>
+            </p>
+          </div>
+          <div class="expertise-block">
+            <h4>
+              <span class="t-de">AI &amp; Neue Tools</span>
+              <span class="t-en">AI &amp; Emerging Tools</span>
+            </h4>
+            <p>Figma Make · Claude Code · Midjourney · Stitch · Notion AI · Cursor</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ LEARNING ═══════════════════ -->
+  <section class="learning-bg">
+    <div class="container-sm">
+      <h2 class="learning-title">
+        <span class="t-de">Meine <em>Entwicklung.</em></span>
+        <span class="t-en">My <em>Learning Path.</em></span>
+      </h2>
+      <div class="learning-list">
+
+        <div class="learning-entry">
+          <span class="learning-year">2021</span>
+          <div>
+            <p class="learning-degree">User Experience Designer</p>
+            <p class="learning-institution">Experience Design Institut</p>
+          </div>
+        </div>
+
+        <div class="learning-entry">
+          <span class="learning-year">2021</span>
+          <div>
+            <p class="learning-degree">
+              <span class="t-de">Certified Associate in Project Management (CAPM)</span>
+              <span class="t-en">Certified Associate in Project Management (CAPM)</span>
+            </p>
+            <p class="learning-institution">Project Management Institute (PMI)</p>
+          </div>
+        </div>
+
+        <div class="learning-entry">
+          <span class="learning-year">2014 – 2017</span>
+          <div>
+            <p class="learning-degree">
+              <span class="t-de">Master of Arts – Europastudien</span>
+              <span class="t-en">Master of Arts – European Studies</span>
+            </p>
+            <p class="learning-institution">Europa-Universität Viadrina, Frankfurt (Oder)</p>
+          </div>
+        </div>
+
+        <div class="learning-entry">
+          <span class="learning-year">2009 – 2013</span>
+          <div>
+            <p class="learning-degree">
+              <span class="t-de">Bachelor – Internationale Wirtschaft</span>
+              <span class="t-en">Bachelor – International Economics</span>
+            </p>
+            <p class="learning-institution">
+              <span class="t-de">Staatliche Wadym-Hetman-Wirtschaftsuniversität, Kyiv</span>
+              <span class="t-en">Vadym Hetman Kyiv National Economic University, Kyiv</span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CERTIFICATES ═══════════════════ -->
+  <section class="certs-bg">
+    <div class="certs-header">
+      <p class="certs-label">
+        <span class="t-de">Zertifikate</span>
+        <span class="t-en">Certificates</span>
+      </p>
+    </div>
+
+    <div class="carousel-track-wrap" id="carousel">
+      <div class="carousel-track" id="carousel-track">
+
+        <div class="cert-card">
+          <img src="certs/cert-xdi-1.png" alt="User Experience Designer – XDi">
+          <p class="cert-card-label">User Experience Designer – XDi</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-pendo-1.png" alt="Pendo Product Analytics Certification" style="object-fit:contain; background:#1a1a2e; padding:1rem;">
+          <p class="cert-card-label">Product Analytics Certification – Pendo</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-pendo-pl-1.png" alt="Pendo Product-led Certification" style="object-fit:contain; background:#1a1a2e; padding:1rem;">
+          <p class="cert-card-label">Product-led Certification – Pendo</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-wcag-1.png" alt="WCAG 2.0">
+          <p class="cert-card-label">WCAG 2.0</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-mobile-design-1.png" alt="Mobile Design">
+          <p class="cert-card-label">Mobile Design</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-ui-components-1.png" alt="UI Components I">
+          <p class="cert-card-label">UI Components I</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-design-composition-1.png" alt="Design Composition">
+          <p class="cert-card-label">Design Composition</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-gamification-1.png" alt="Gamification & Motivation Psychology">
+          <p class="cert-card-label">Gamification &amp; Motivation</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-pmbok-1.png" alt="PMBOK Guide">
+          <p class="cert-card-label">PMBOK Guide</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-sketch-1.png" alt="Sketch">
+          <p class="cert-card-label">Sketch</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-html-css-1.png" alt="HTML, CSS &amp; JavaScript">
+          <p class="cert-card-label">HTML, CSS &amp; JavaScript</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-capm-1.png" alt="CAPM">
+          <p class="cert-card-label">CAPM</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-ux-foundations-1.png" alt="UX Design Foundations">
+          <p class="cert-card-label">UX Design Foundations</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-ux-theory-1.png" alt="UX Design Theory">
+          <p class="cert-card-label">UX Design Theory</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-ux-research-1.png" alt="UX Research">
+          <p class="cert-card-label">UX Research</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-user-testing-1.png" alt="User Testing">
+          <p class="cert-card-label">User Testing</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-ui-components-2-1.png" alt="UI Components II">
+          <p class="cert-card-label">UI Components II</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-common-patterns-1.png" alt="Common Design Patterns">
+          <p class="cert-card-label">Common Design Patterns</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-color-psychology-1.png" alt="Color Psychology">
+          <p class="cert-card-label">Color Psychology</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-typography-1.png" alt="Typography">
+          <p class="cert-card-label">Typography</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-design-terminology-1.png" alt="Design Terminology">
+          <p class="cert-card-label">Design Terminology</p>
+        </div>
+
+        <div class="cert-card">
+          <img src="certs/cert-ux-ai-1.png" alt="Enhancing UX Workflow with AI">
+          <p class="cert-card-label">UX Workflow with AI</p>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="carousel-nav">
+      <button class="carousel-btn" id="prev" aria-label="Previous">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="carousel-btn" id="next" aria-label="Next">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 Margarita Udovychenko</span>
+      <span class="footer-sep">·</span>
+      <a href="index.html" class="t-de">Home</a>
+      <a href="index.html" class="t-en">Home</a>
+      <span class="footer-sep">·</span>
+      <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+      <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <span class="footer-sep">·</span>
+      <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
+      <span class="footer-sep">·</span>
+      <a href="mailto:margarita.udovichenko@gmail.com">margarita.udovichenko@gmail.com</a>
+    </div>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      const html = document.documentElement;
+      if (lang === 'en') {
+        html.classList.add('lang-en');
+        html.lang = 'en';
+      } else {
+        html.classList.remove('lang-en');
+        html.lang = 'de';
+      }
+      ['btn-de','btn-en','btn-de-m','btn-en-m'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        const isActive = (id.includes('de') && lang === 'de') || (id.includes('en') && lang === 'en');
+        btn.classList.toggle('active', isActive);
+      });
+      const cvDe = document.getElementById('cv-btn-de');
+      const cvEn = document.getElementById('cv-btn-en');
+      if (cvDe) cvDe.style.display = lang === 'de' ? 'inline-flex' : 'none';
+      if (cvEn) cvEn.style.display = lang === 'en' ? 'inline-flex' : 'none';
+    }
+
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+    }
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('mobile-menu');
+      const hamburger = document.getElementById('hamburger');
+      if (menu && hamburger && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+
+    // ── Carousel ──
+    const wrap = document.getElementById('carousel');
+    const step = 280 * 2;
+
+    document.getElementById('next').addEventListener('click', () => {
+      wrap.scrollBy({ left: step, behavior: 'smooth' });
+    });
+    document.getElementById('prev').addEventListener('click', () => {
+      wrap.scrollBy({ left: -step, behavior: 'smooth' });
+    });
+
+    // drag-to-scroll
+    let isDragging = false, startX = 0, startScroll = 0;
+    wrap.addEventListener('mousedown', e => {
+      isDragging = true;
+      startX = e.clientX;
+      startScroll = wrap.scrollLeft;
+      wrap.style.cursor = 'grabbing';
+    });
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      wrap.style.cursor = 'grab';
+    });
+    document.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      wrap.scrollLeft = startScroll - (e.clientX - startX);
+    });
+  </script>
+</body>
+</html>

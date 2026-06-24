@@ -60,7 +60,6 @@
       box-shadow: 0 1px 0 var(--warm-gray);
     }
     nav.scrolled .nav-logo { color: var(--black); }
-    nav.scrolled .search-toggle { color: var(--black); }
     nav.scrolled .hamburger { color: var(--black); }
     .nav-inner {
       max-width: 1200px; margin: 0 auto; padding: 0 2rem;
@@ -185,6 +184,13 @@
     .hero-name em {
       font-style: italic;
       color: var(--pink);
+    }
+    .hero-sub {
+      font-size: clamp(0.88rem, 1.2vw, 1rem);
+      color: rgba(237,234,229,0.55);
+      max-width: 38rem;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
     }
     .hero-actions {
       display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
@@ -443,65 +449,35 @@
       line-height: 1.65;
     }
 
-    /* ── Contact ── */
-    .contact-bg { background: var(--off-white); }
-    .contact-card {
-      max-width: 30rem; margin: 0 auto;
-    }
-    .contact-inner {
-      background: var(--black);
-      padding: 2.75rem;
-      position: relative; overflow: hidden;
-    }
-    .contact-inner::before {
-      content: '';
-      position: absolute;
-      width: 220px; height: 220px;
-      border-radius: 50%;
-      background: var(--pink);
-      top: -80px; right: -80px;
-      opacity: 0.18;
-      pointer-events: none;
-    }
-    .contact-inner h3 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.8rem; font-weight: 900;
-      text-transform: uppercase;
-      color: var(--off-white);
-      margin-bottom: 2rem;
-      letter-spacing: 0.02em;
-    }
-    .contact-rows { display: grid; gap: 1.5rem; position: relative; z-index: 1; }
-    .contact-row { display: flex; align-items: center; gap: 1rem; }
-    .contact-icon {
-      padding: 0.65rem;
-      border: 1px solid rgba(255,255,255,0.12);
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .contact-label {
-      font-size: 0.68rem; color: var(--mid-gray);
-      letter-spacing: 0.14em; text-transform: uppercase;
-      margin-bottom: 0.15rem;
-    }
-    .contact-value {
-      color: var(--off-white); font-weight: 400;
-      text-decoration: none; font-size: 0.92rem;
-      transition: color 0.2s;
-      word-break: break-all;
-    }
-    .contact-value:hover { color: var(--pink); }
-
     /* ── Footer ── */
     footer {
       background: var(--black);
       border-top: 2px solid var(--pink);
       color: rgba(237,234,229,0.5);
-      padding: 2rem 2rem; text-align: center;
+      padding: 1.25rem 2rem;
     }
-    footer p + p { margin-top: 0.35rem; }
-    footer .line1 { font-size: 0.82rem; }
-    footer .line2 { font-size: 0.72rem; opacity: 0.7; }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1.25rem;
+      font-size: 0.8rem;
+    }
+    .footer-inner .footer-copy {
+      color: rgba(237,234,229,0.4);
+    }
+    .footer-sep {
+      color: rgba(237,234,229,0.2);
+    }
+    .footer-inner a {
+      color: rgba(237,234,229,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-inner a:hover { color: var(--pink); }
+    @media (max-width: 600px) {
+      .footer-inner { gap: 0.4rem 0.9rem; }
+    }
 
     /* ── Modal Overlay ── */
     .modal-overlay {
@@ -648,84 +624,6 @@
       margin: 1.5rem 0;
     }
 
-    /* ── Search ── */
-    .search-wrap { position: relative; display: flex; align-items: center; }
-    .search-toggle {
-      background: none; border: none; cursor: pointer;
-      color: var(--off-white); padding: 4px;
-      display: flex; align-items: center;
-      transition: color 0.2s;
-    }
-    nav.scrolled .search-toggle { color: var(--black); }
-    .search-toggle:hover { color: var(--pink); }
-    .search-box {
-      display: none; align-items: center;
-      position: absolute; right: 28px; top: 50%; transform: translateY(-50%);
-      background: var(--off-white);
-      border: 1px solid var(--warm-gray);
-      width: 220px;
-    }
-    .search-box.open { display: flex; }
-    .search-box input {
-      flex: 1; border: none; background: transparent;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem; padding: 0.45rem 0.75rem;
-      outline: none; color: var(--black);
-    }
-    .search-clear {
-      background: none; border: none; cursor: pointer;
-      color: var(--mid-gray); padding: 0 0.5rem;
-      font-size: 0.75rem;
-    }
-    .search-clear:hover { color: var(--pink); }
-    .search-results {
-      display: none;
-      position: fixed; top: 60px; left: 0; right: 0;
-      z-index: 200;
-      background: var(--off-white);
-      border-top: 2px solid var(--pink);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-      max-height: 70vh; overflow-y: auto;
-    }
-    .search-results.open { display: block; }
-    .search-results-inner { max-width: 800px; margin: 0 auto; padding: 1.5rem 2rem; }
-    .search-result-label {
-      font-size: 0.68rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--mid-gray); margin-bottom: 1rem;
-    }
-    .search-result-item {
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--warm-gray);
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .search-result-item:last-child { border-bottom: none; }
-    .search-result-item:hover .search-result-title { color: var(--pink); }
-    .search-result-section {
-      font-size: 0.68rem; font-weight: 600;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--pink); margin-bottom: 0.25rem;
-    }
-    .search-result-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem; font-weight: 800;
-      text-transform: uppercase; color: var(--black);
-      transition: color 0.2s;
-    }
-    .search-result-snippet {
-      font-size: 0.85rem; color: var(--mid-gray);
-      margin-top: 0.2rem; line-height: 1.5;
-    }
-    .search-result-snippet mark {
-      background: var(--pink-20); color: var(--black);
-      padding: 0 2px;
-    }
-    .search-no-results {
-      font-size: 0.92rem; color: var(--mid-gray);
-      padding: 1rem 0;
-    }
-
     /* ── Responsive ── */
     @media (max-width: 767px) {
       .nav-links { display: none; }
@@ -737,18 +635,6 @@
         padding: 7rem 1.5rem 6rem;
       }
       .hero-scroll-hint { bottom: 1.5rem; }
-      .search-box {
-        position: fixed;
-        top: 60px; left: 0; right: 0;
-        transform: none;
-        width: 100%;
-        border: none;
-        border-top: 2px solid var(--pink);
-        border-bottom: 1px solid var(--warm-gray);
-        background: var(--off-white);
-        z-index: 300;
-      }
-      .search-box input { font-size: 1rem; padding: 0.75rem 1rem; }
     }
     @media (min-width: 768px) {
       .nav-mobile-right { display: none; }
@@ -768,35 +654,20 @@
         <a href="about.html" class="t-en">About</a>
         <a href="#projects" class="t-de">Case Studies</a>
         <a href="#projects" class="t-en">Case Studies</a>
-        <a href="#contact" class="t-de">Kontakt</a>
-        <a href="#contact" class="t-en">Contact</a>
         <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
         <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+        <a href="mailto:margarita.udovichenko@gmail.com">Email</a>
         <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener" aria-label="LinkedIn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
         </a>
-        <div class="search-wrap" id="search-wrap">
-          <button class="search-toggle" id="search-toggle" onclick="toggleSearch()" aria-label="Suche">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          </button>
-          <div class="search-box" id="search-box">
-            <input type="text" id="search-input" placeholder="Suchen..." oninput="runSearch(this.value)" autocomplete="off">
-            <button onclick="clearSearch()" class="search-clear" id="search-clear">✕</button>
-          </div>
-        </div>
         <div class="lang-switcher">
           <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
           <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
         </div>
       </div>
 
-      <!-- Mobile: search + lang + hamburger -->
+      <!-- Mobile: lang + hamburger -->
       <div class="nav-mobile-right">
-        <div class="search-wrap" id="search-wrap-m">
-          <button class="search-toggle" id="search-toggle-m" onclick="toggleSearch()" aria-label="Suche">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          </button>
-        </div>
         <div class="lang-switcher">
           <button class="lang-btn active" id="btn-de-m" onclick="setLang('de')">DE</button>
           <button class="lang-btn" id="btn-en-m" onclick="setLang('en')">EN</button>
@@ -813,10 +684,9 @@
       <a href="about.html" class="t-de">Über mich</a>
       <a href="about.html" class="t-en">About</a>
       <a href="#projects" onclick="closeMenu()">Case Studies</a>
-      <a href="#contact" onclick="closeMenu()" class="t-de">Kontakt</a>
-      <a href="#contact" onclick="closeMenu()" class="t-en">Contact</a>
       <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
       <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <a href="mailto:margarita.udovichenko@gmail.com">Email</a>
       <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </nav>
@@ -828,9 +698,13 @@
 
     <div class="hero-content">
       <h1 class="hero-name">
-        <span class="t-de">Research-getriebene<br>Product Designerin,<br><em>die Insights</em><br>in Produkte verwandelt,<br>die wirklich zählen.</span>
-        <span class="t-en">Research-driven<br>Product Designer<br><em>turning insights</em><br>into products<br>that matter.</span>
+        <span class="t-de">Research-getriebene<br>Product Designerin,<br>die komplexe digitale<br>Produkte schafft,<br><em>denen Menschen<br>vertrauen.</em></span>
+        <span class="t-en">Research-driven<br>Product Designer<br>creating complex<br>digital products<br><em>that people trust.</em></span>
       </h1>
+      <p class="hero-sub">
+        <span class="t-de">Ich verbinde User Research, Product Thinking und Business-Verständnis, um Lösungen zu gestalten, die echte Probleme lösen, messbaren Mehrwert schaffen und in hochkomplexen Umgebungen funktionieren.</span>
+        <span class="t-en">I combine user research, product thinking, and business understanding to design solutions that solve real problems, create measurable value, and work in highly complex environments.</span>
+      </p>
       <div class="hero-pills-inner">
         <span class="hero-pill"><span class="hero-pill-dot"></span><span class="t-de">5+ Jahre Erfahrung</span><span class="t-en">5+ Years Experience</span></span>
         <span class="hero-pill"><span class="hero-pill-dot"></span>B2B / SaaS</span>
@@ -1002,72 +876,6 @@
     </div>
   </section>
 
-  <!-- ═══════════════════ CONTACT ═══════════════════ -->
-  <section id="contact" class="contact-bg">
-    <div class="container">
-      <p class="section-eyebrow">
-        <span class="t-de">Kontakt</span>
-        <span class="t-en">Contact</span>
-      </p>
-      <div class="contact-card">
-        <div class="contact-inner">
-          <h3>
-            <span class="t-de">Get in Touch.</span>
-            <span class="t-en">Get in Touch.</span>
-          </h3>
-          <div class="contact-rows">
-            <!-- Email -->
-            <div class="contact-row">
-              <div class="contact-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="20" height="16" x="2" y="4" rx="2"/>
-                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                </svg>
-              </div>
-              <div>
-                <p class="contact-label">
-                  <span class="t-de">E-Mail</span>
-                  <span class="t-en">Email</span>
-                </p>
-                <a href="mailto:margarita.udovichenko@gmail.com" class="contact-value">margarita.udovichenko@gmail.com</a>
-              </div>
-            </div>
-            <!-- Phone -->
-            <div class="contact-row">
-              <div class="contact-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.13 11.91 19.79 19.79 0 0 1 1.06 3.24 2 2 0 0 1 3.05 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-              </div>
-              <div>
-                <p class="contact-label">
-                  <span class="t-de">Telefon</span>
-                  <span class="t-en">Phone</span>
-                </p>
-                <a href="tel:+4917654407726" class="contact-value">+49 176 54407726</a>
-              </div>
-            </div>
-            <!-- LinkedIn -->
-            <div class="contact-row">
-              <div class="contact-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                  <rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>
-                </svg>
-              </div>
-              <div>
-                <p class="contact-label">LinkedIn</p>
-                <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871/" target="_blank" rel="noopener" class="contact-value">
-                  <span class="t-de">LinkedIn Profil</span>
-                  <span class="t-en">LinkedIn Profile</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ═══════════════════ MODAL 1 ═══════════════════ -->
   <div id="modal-1" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
@@ -1491,129 +1299,24 @@
     </div>
   </div>
 
-  <!-- ═══════════════════ SEARCH RESULTS ═══════════════════ -->
-  <div id="search-results" class="search-results" role="region">
-    <div class="search-results-inner">
-      <p class="search-result-label" id="search-result-label"></p>
-      <div id="search-result-list"></div>
-    </div>
-  </div>
-
   <!-- ═══════════════════ FOOTER ═══════════════════ -->
   <footer>
-    <p class="line1">
-      <span class="t-de">© 2026 Margarita Udovychenko. Alle Rechte vorbehalten.</span>
-      <span class="t-en">© 2026 Margarita Udovychenko. All rights reserved.</span>
-    </p>
-    <p class="line2">
-      <span class="t-de">Erstellt mit Leidenschaft für nutzerzentriertes Design</span>
-      <span class="t-en">Created with passion for user-centered design</span>
-    </p>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 Margarita Udovychenko</span>
+      <span class="footer-sep">·</span>
+      <a href="index.html" class="t-de">Home</a>
+      <a href="index.html" class="t-en">Home</a>
+      <span class="footer-sep">·</span>
+      <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+      <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <span class="footer-sep">·</span>
+      <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
+      <span class="footer-sep">·</span>
+      <a href="mailto:margarita.udovichenko@gmail.com">margarita.udovichenko@gmail.com</a>
+    </div>
   </footer>
 
   <script>
-    // ── Search ──
-    const searchData = [
-      {
-        section: { de: 'Über mich', en: 'About' },
-        title: { de: 'Hallo! Ich bin Rita.', en: 'Hi! I\'m Rita.' },
-        content: { de: 'Product Designerin 5 Jahre Erfahrung Projektmanagement POLYAS B2B SaaS Produkte Research Umsetzung Erfolgsmessung Systeme Business Technologie Nutzer', en: 'Product Designer 5 years experience project management POLYAS B2B SaaS products research implementation measurement systems business technology user' },
-        action: () => { document.getElementById('about').scrollIntoView({behavior:'smooth'}); }
-      },
-      {
-        section: { de: 'Case Study 01', en: 'Case Study 01' },
-        title: { de: 'Neue Einstiegsexperience – POLYAS Configurator', en: 'New Entry Experience – POLYAS Configurator' },
-        content: { de: 'Einstieg Login Onboarding Absprungrate Support Responsive Design User Research User Journey A/B Testing Startseite Kacheldesign Upselling -10% -90% +8%', en: 'onboarding login bounce rate support responsive design user research user journey A/B testing start page tile design upselling -10% -90% +8%' },
-        action: () => { openModal('modal-1'); }
-      },
-      {
-        section: { de: 'Case Study 02', en: 'Case Study 02' },
-        title: { de: 'POLYAS New Voting Client', en: 'POLYAS New Voting Client' },
-        content: { de: 'Mobile First Barrierefreiheit Accessibility WCAG 2.0 User Testing Design System Stimmzettel Voting Wahl Pilotkunden SUS Score 87 400 Stimmen MUI Storybook', en: 'mobile first accessibility WCAG 2.0 user testing design system ballot voting election pilot customers SUS score 87 400 votes MUI Storybook' },
-        action: () => { openModal('modal-2'); }
-      },
-      {
-        section: { de: 'Case Study 03', en: 'Case Study 03' },
-        title: { de: 'Neuer Feedback-Prozess', en: 'New Feedback Process' },
-        content: { de: 'Feedback Workshop RICE Priorisierung Jira Kanban Prozessdesign Stakeholder Management Sales Customer Success Support Leadership Bestandskunden SaaS Umfragen intern extern Chaos Klarheit', en: 'feedback workshop RICE prioritization Jira Kanban process design stakeholder management Sales Customer Success Support Leadership existing customers SaaS surveys internal external chaos clarity' },
-        action: () => { openModal('modal-3'); }
-      },
-      {
-        section: { de: 'Expertise', en: 'Expertise' },
-        title: { de: 'Design & Tools', en: 'Design & Tools' },
-        content: { de: 'Figma Adobe InDesign Miro After Effects User Research Usability Testing Heuristische Evaluation User Journey Mapping Informationsarchitektur Accessibility WCAG Design Thinking RICE Stakeholder OKR Design System Agile Scrum Kanban Workshop Developer Handoff Figma Make Claude Code Midjourney Notion AI Cursor', en: 'Figma Adobe InDesign Miro After Effects User Research Usability Testing Heuristic Evaluation User Journey Mapping Information Architecture Accessibility WCAG Design Thinking RICE Stakeholder OKR Design System Agile Scrum Kanban Workshop Developer Handoff Figma Make Claude Code Midjourney Notion AI Cursor' },
-        action: () => { document.getElementById('about').scrollIntoView({behavior:'smooth'}); }
-      },
-      {
-        section: { de: 'Kontakt', en: 'Contact' },
-        title: { de: 'Get in Touch', en: 'Get in Touch' },
-        content: { de: 'E-Mail Telefon LinkedIn Kontakt', en: 'email phone LinkedIn contact' },
-        action: () => { document.getElementById('contact').scrollIntoView({behavior:'smooth'}); }
-      }
-    ];
-
-    function toggleSearch() {
-      const box = document.getElementById('search-box');
-      box.classList.toggle('open');
-      if (box.classList.contains('open')) {
-        setTimeout(() => document.getElementById('search-input').focus(), 50);
-      } else {
-        clearSearch();
-      }
-    }
-
-    function clearSearch() {
-      document.getElementById('search-input').value = '';
-      document.getElementById('search-results').classList.remove('open');
-      document.getElementById('search-box').classList.remove('open');
-    }
-
-    function runSearch(query) {
-      const resultsEl = document.getElementById('search-results');
-      const listEl = document.getElementById('search-result-list');
-      const labelEl = document.getElementById('search-result-label');
-      const lang = document.documentElement.classList.contains('lang-en') ? 'en' : 'de';
-      const q = query.trim().toLowerCase();
-
-      if (!q) { resultsEl.classList.remove('open'); return; }
-
-      const matches = searchData.filter(item => {
-        const text = (item.title[lang] + ' ' + item.content[lang]).toLowerCase();
-        return text.includes(q);
-      });
-
-      listEl.innerHTML = '';
-
-      if (matches.length === 0) {
-        listEl.innerHTML = `<p class="search-no-results">${lang === 'de' ? 'Keine Ergebnisse gefunden.' : 'No results found.'}</p>`;
-        labelEl.textContent = '';
-      } else {
-        labelEl.textContent = lang === 'de' ? `${matches.length} Ergebnis${matches.length > 1 ? 'se' : ''} für „${query}"` : `${matches.length} result${matches.length > 1 ? 's' : ''} for "${query}"`;
-        matches.forEach(item => {
-          const snippet = item.content[lang].split(' ').filter(w => w.toLowerCase().includes(q)).slice(0,6).join(' · ');
-          const div = document.createElement('div');
-          div.className = 'search-result-item';
-          div.innerHTML = `
-            <p class="search-result-section">${item.section[lang]}</p>
-            <p class="search-result-title">${item.title[lang]}</p>
-            ${snippet ? `<p class="search-result-snippet">${snippet.replace(new RegExp(q, 'gi'), m => `<mark>${m}</mark>`)}</p>` : ''}
-          `;
-          div.addEventListener('click', () => { clearSearch(); setTimeout(item.action, 100); });
-          listEl.appendChild(div);
-        });
-      }
-      resultsEl.classList.add('open');
-    }
-
-    // Close search on outside click
-    document.addEventListener('click', (e) => {
-      const wrap = document.getElementById('search-wrap');
-      const results = document.getElementById('search-results');
-      if (!wrap.contains(e.target) && !results.contains(e.target)) {
-        clearSearch();
-      }
-    });
-
     // ── Language switcher ──
     function setLang(lang) {
       const html = document.documentElement;
