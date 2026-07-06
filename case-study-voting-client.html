@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="de">
+<script>
+  (function(){var l=localStorage.getItem('lang');if(l==='en'){document.documentElement.classList.add('lang-en');document.documentElement.lang='en';}})();
+</script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Voting Client – Margarita Udovychenko</title>
+  <meta name="description" content="Case Study: POLYAS New Voting Client – Mobile-first voting interface with WCAG 2.0 accessibility.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; color-scheme: dark; }
+
+    :root {
+      --pink:      #E8185D;
+      --pink-dark: #C4134F;
+      --pink-10:   rgba(232,24,93,0.10);
+      --pink-20:   rgba(232,24,93,0.20);
+      --black:     #111111;
+      --off-white: #EDEAE5;
+      --warm-gray: #D6D2CC;
+      --mid-gray:  #888480;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--off-white);
+      background: #111;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── Language switching ── */
+    .t-en, .b-en { display: none; }
+    html.lang-en .t-de { display: none; }
+    html.lang-en .b-de { display: none; }
+    html.lang-en .t-en { display: inline; }
+    html.lang-en .b-en { display: block; }
+    span.badge.t-en { display: none; }
+    span.badge.t-de { display: inline-flex; }
+    html.lang-en span.badge.t-de { display: none; }
+    html.lang-en span.badge.t-en { display: inline-flex; }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(17,17,17,0.95);
+      backdrop-filter: blur(12px);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(237,234,229,0.97);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--warm-gray);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.05rem; font-weight: 900;
+      color: var(--off-white); text-decoration: none;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    nav.scrolled .nav-logo { color: var(--black); }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+    }
+    .nav-links a {
+      color: var(--off-white); text-decoration: none;
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    nav.scrolled .nav-links a { color: var(--black); }
+    nav.scrolled .nav-links a:hover { color: var(--pink); }
+    .lang-switcher {
+      display: flex; gap: 2px;
+      background: var(--warm-gray);
+      padding: 3px; border-radius: 4px;
+    }
+    .lang-btn {
+      padding: 3px 10px; border-radius: 2px;
+      font-size: 1rem; font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; border: none;
+      background: transparent; color: var(--black);
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+    }
+    .lang-btn.active { background: var(--pink); color: #fff; }
+    .lang-btn:not(.active):hover { color: var(--pink); }
+    .hamburger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 4px; color: var(--off-white);
+    }
+    nav.scrolled .hamburger { color: var(--black); }
+    .mobile-menu {
+      display: none; position: absolute;
+      top: 60px; left: 0; right: 0;
+      background: var(--off-white);
+      border-top: 2px solid var(--pink);
+      padding: 0.5rem 1rem 1rem;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block; padding: 0.75rem 0.5rem;
+      color: var(--black); text-decoration: none;
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      border-bottom: 1px solid var(--warm-gray);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--pink); }
+    .mobile-menu a.t-en { display: none; }
+    html.lang-en .mobile-menu a.t-de { display: none; }
+    html.lang-en .mobile-menu a.t-en { display: block; }
+
+    /* ── Back bar ── */
+    .cs-back {
+      margin-top: 60px;
+      background: #0d0d0d;
+      padding: 0.85rem 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .cs-back a {
+      color: var(--mid-gray); text-decoration: none;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      transition: color 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .cs-back a:hover { color: var(--pink); }
+
+    /* ── Case study layout ── */
+    .cs-hero {
+      background: #1A1A1A;
+      border-bottom: 2px solid var(--pink);
+      padding: 3.5rem 2rem 3rem;
+    }
+    .cs-hero-inner,
+    .cs-body {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .cs-body {
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* ── Eyebrow / title / tags ── */
+    .modal-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 0.75rem;
+    }
+    .modal-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 900; text-transform: uppercase;
+      color: var(--off-white); line-height: 0.95;
+      letter-spacing: -0.01em; margin-bottom: 1.5rem;
+    }
+    .modal-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex; align-items: center;
+      padding: 0.2rem 0.65rem;
+      font-size: 1rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: transparent; color: var(--off-white);
+      border: 1px solid rgba(255,255,255,0.15);
+      white-space: nowrap;
+    }
+
+    /* ── Sections ── */
+    .modal-section { margin-bottom: 3rem; }
+    .modal-section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .modal-section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem; font-weight: 800;
+      text-transform: uppercase; color: var(--off-white);
+      margin-bottom: 0.75rem; letter-spacing: 0.02em;
+    }
+    .modal-text {
+      font-size: 1rem; line-height: 1.85;
+      color: var(--off-white);
+    }
+    .modal-text + .modal-text { margin-top: 1rem; }
+
+    /* ── Cards / grid ── */
+    .modal-grid-2 {
+      display: grid; gap: 1.25rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 600px) {
+      .modal-grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+    .modal-card {
+      background: #1A1A1A;
+      padding: 1.5rem;
+      border-top: 2px solid var(--pink);
+    }
+    .modal-card h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      text-transform: uppercase; color: var(--off-white);
+      margin-bottom: 0.5rem; letter-spacing: 0.05em;
+    }
+    .modal-card p {
+      font-size: 1rem; color: var(--off-white); line-height: 1.65;
+    }
+
+    /* ── Process steps ── */
+    .process-steps { display: grid; gap: 0; }
+    .process-step {
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .process-step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem; font-weight: 900;
+      color: var(--pink); line-height: 1;
+      min-width: 2rem; text-align: center;
+      opacity: 0.6;
+    }
+    .step-content h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      text-transform: uppercase; color: var(--off-white);
+      margin-bottom: 0.3rem; letter-spacing: 0.05em;
+    }
+    .step-content p { font-size: 1rem; color: var(--off-white); line-height: 1.65; }
+    .step-content p + p { margin-top: 0.75rem; }
+
+    /* ── Result stats ── */
+    .result-stat {
+      display: flex; align-items: baseline; gap: 0.75rem;
+      padding: 1.25rem;
+      background: #1A1A1A;
+      border-left: 3px solid var(--pink);
+      margin-bottom: 0.75rem;
+    }
+    .result-stat .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.5rem; font-weight: 900;
+      color: var(--pink); line-height: 1;
+      white-space: nowrap;
+    }
+    .result-stat .stat-label {
+      font-size: 1rem; color: var(--off-white); line-height: 1.5;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--black);
+      border-top: 2px solid var(--pink);
+      color: rgba(237,234,229,0.5);
+      padding: 1.25rem 2rem;
+    }
+    .footer-inner {
+      display: flex; flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1.25rem;
+      font-size: 1rem;
+    }
+    .footer-copy { color: rgba(237,234,229,0.4); }
+    .footer-sep { color: rgba(237,234,229,0.2); }
+    .footer-inner a { color: var(--off-white); text-decoration: none; transition: color 0.2s; }
+    .footer-inner a:hover { color: var(--pink); }
+
+    /* ── Responsive ── */
+    @media (max-width: 767px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .nav-mobile-right { display: flex; align-items: center; gap: 0.75rem; }
+      .cs-back { padding: 0.85rem 1.25rem; }
+      .cs-hero { padding: 2.5rem 1.25rem 2.5rem; }
+      .cs-body { padding: 2rem 1.25rem 4rem; }
+    }
+    @media (min-width: 768px) {
+      .nav-mobile-right { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Margarita Udovychenko</a>
+      <div class="nav-links">
+        <a href="about.html" class="t-de">Über mich</a>
+        <a href="about.html" class="t-en">About</a>
+        <a href="index.html#projects" class="t-de">Case Studies</a>
+        <a href="index.html#projects" class="t-en">Case Studies</a>
+        <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+        <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+        <a href="mailto:margarita.udovichenko@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <div class="lang-switcher">
+          <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+      <div class="nav-mobile-right">
+        <div class="lang-switcher">
+          <button class="lang-btn active" id="btn-de-m" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="btn-en-m" onclick="setLang('en')">EN</button>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="about.html" class="t-de">Über mich</a>
+      <a href="about.html" class="t-en">About</a>
+      <a href="index.html#projects" onclick="closeMenu()">Case Studies</a>
+      <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+      <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <a href="mailto:margarita.udovichenko@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ BACK BAR ═══════════════════ -->
+  <div class="cs-back">
+    <a href="index.html#projects">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span class="t-de">Zurück zum Portfolio</span>
+      <span class="t-en">Back to Portfolio</span>
+    </a>
+  </div>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <div class="cs-hero">
+    <div class="cs-hero-inner">
+      <p class="modal-eyebrow">01 / 03 &nbsp;·&nbsp; POLYAS</p>
+      <h1 class="modal-title">New Voting Client</h1>
+      <div class="modal-tags">
+        <span class="badge">Mobile First</span>
+        <span class="badge t-de">Barrierefreiheit</span>
+        <span class="badge t-en">Accessibility</span>
+        <span class="badge">WCAG 2.0</span>
+        <span class="badge">User Testing</span>
+        <span class="badge">Design System</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ CONTENT ═══════════════════ -->
+  <div class="cs-body">
+
+    <!-- Impact -->
+    <div class="modal-section">
+      <p class="modal-section-label">Impact</p>
+      <div class="result-stat">
+        <span class="stat-num">✓</span>
+        <span class="stat-label t-de">MVP im Einsatz bei Pilotkunden</span>
+        <span class="stat-label t-en">MVP live with pilot customers</span>
+      </div>
+      <div class="result-stat">
+        <span class="stat-num">400+</span>
+        <span class="stat-label t-de">Stimmabgaben über den neuen Voting Client</span>
+        <span class="stat-label t-en">Votes cast via the new Voting Client</span>
+      </div>
+      <div class="result-stat">
+        <span class="stat-num">87</span>
+        <span class="stat-label t-de">SUS Score (System Usability Scale)</span>
+        <span class="stat-label t-en">SUS Score (System Usability Scale)</span>
+      </div>
+      <div class="result-stat">
+        <span class="stat-num">✓</span>
+        <span class="stat-label t-de">WCAG 2.0 AA Standard erfüllt</span>
+        <span class="stat-label t-en">WCAG 2.0 AA standard met</span>
+      </div>
+    </div>
+
+    <!-- Kontext -->
+    <div class="modal-section">
+      <p class="modal-section-label">
+        <span class="t-de">Kontext &amp; Problem</span>
+        <span class="t-en">Context &amp; Problem</span>
+      </p>
+      <h2 class="modal-section-title">
+        <span class="t-de">Ausgangssituation</span>
+        <span class="t-en">Starting Point</span>
+      </h2>
+      <p class="modal-text">
+        <span class="t-de">Der bestehende Voting Client bildete den zentralen Berührungspunkt zwischen Wahlberechtigten und der digitalen Stimmabgabe. Jährlich nutzen ihn bis zu 2 Millionen Menschen, um ihre Stimme online abzugeben. Trotz seiner hohen Relevanz basierte der Client noch auf einem Konzept aus dem Jahr 2012 und wurde seitdem lediglich kosmetisch überarbeitet.</span>
+        <span class="t-en">The existing Voting Client was the central touchpoint between voters and digital ballot casting. Up to 2 million people use it each year to cast their votes online. Despite its high relevance, the client was still based on a concept from 2012 and had only received cosmetic updates since then.</span>
+      </p>
+      <p class="modal-text">
+        <span class="t-de">Gleichzeitig veränderten sich die Anforderungen der Kunden deutlich. Während der Client ursprünglich für einfache Wahlen mit einem einzelnen Stimmzettel konzipiert wurde, sollten zunehmend komplexe Wahlen mit mehreren, langen und teilweise sehr anspruchsvollen Stimmzetteln digital abgebildet werden. Das bestehende Interface stieß dabei zunehmend an seine Grenzen.</span>
+        <span class="t-en">At the same time, customer requirements were changing significantly. While the client was originally designed for simple elections with a single ballot, there was growing demand to support complex elections with multiple, long and sometimes very demanding ballots. The existing interface was increasingly reaching its limits.</span>
+      </p>
+      <p class="modal-text">
+        <span class="t-de">Besonders herausfordernd war die Arbeit unter den Rahmenbedingungen eines hochsensiblen Produkts: Aufgrund rechtlicher und sicherheitsrelevanter Vorgaben konnten weder Tracking-Technologien eingesetzt noch Wahlberechtigte direkt kontaktiert werden. Entscheidungen mussten daher auf Basis von Nutzerfeedback, Support-Anfragen, Kundenrückmeldungen, Expertenreviews sowie einer Analyse des bestehenden Systems getroffen werden.</span>
+        <span class="t-en">Particularly challenging was working under the constraints of a highly sensitive product: due to legal and security requirements, neither tracking technologies could be used nor voters contacted directly. Decisions therefore had to be made on the basis of user feedback, support requests, customer feedback, expert reviews and an analysis of the existing system.</span>
+      </p>
+      <div style="margin:2rem 0;">
+        <img src="voting-before-4phones.png" alt="Alter POLYAS Voting Client – Ausgangszustand" style="width:100%;height:auto;display:block;border-radius:8px;">
+      </div>
+    </div>
+
+    <!-- Meine Rolle -->
+    <div class="modal-section">
+      <p class="modal-section-label">
+        <span class="t-de">Meine Rolle</span>
+        <span class="t-en">My Role</span>
+      </p>
+      <div class="modal-grid-2">
+        <div class="modal-card">
+          <h4><span class="t-de">Verantwortung</span><span class="t-en">Responsibility</span></h4>
+          <p><span class="t-de">Lead Product Designer – verantwortlich für Discovery, UX-Konzeption, Design System Aufbau und Accessibility-Strategie. Enge Zusammenarbeit mit Product Management und Entwicklung zur Priorisierung von Anforderungen und Übersetzung komplexer Fachprozesse in nutzbare digitale Lösungen.</span><span class="t-en">Lead Product Designer – responsible for discovery, UX concept, design system setup and accessibility strategy. Close collaboration with product management and development to prioritize requirements and translate complex domain processes into usable digital solutions.</span></p>
+        </div>
+        <div class="modal-card">
+          <h4><span class="t-de">Umfang</span><span class="t-en">Scope</span></h4>
+          <p><span class="t-de">Komplette Neuentwicklung – von ersten Wireframes, Prototypen und Nutzerinterviews über ein vollständiges, barrierearmes Design System bis zur Umsetzungsbegleitung, Iteration und Evaluation.</span><span class="t-en">Complete new development – from initial wireframes, prototypes and user interviews through a full, low-barrier design system to implementation support, iteration and evaluation.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prozess -->
+    <div class="modal-section">
+      <p class="modal-section-label">
+        <span class="t-de">Prozess</span>
+        <span class="t-en">Process</span>
+      </p>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4><span class="t-de">Research &amp; Accessibility Audit</span><span class="t-en">Research &amp; Accessibility Audit</span></h4>
+            <p><span class="t-de">Die Analyse des Ist-Zustands, ein WCAG-2.0-Audit, Wettbewerbsanalysen und Nutzerinterviews zeigten mehrere zentrale Probleme: Unübersichtliche und schwer erfassbare Stimmzettel bei komplexen Wahlen · Lange Scrollstrecken und hohe kognitive Belastung · Häufige unabsichtlich ungültige Stimmen · Eingeschränkte Nutzbarkeit auf mobilen Endgeräten · Hohe Frustration bei Screenreader-Nutzer:innen aufgrund des tabellenbasierten Aufbaus.</span><span class="t-en">Analysis of the current state, a WCAG 2.0 audit, competitive analyses and user interviews revealed several core problems: Unclear and hard-to-read ballots in complex elections · Long scroll paths and high cognitive load · Frequent unintentionally invalid votes · Limited usability on mobile devices · High frustration for screen reader users due to the table-based layout.</span></p>
+            <p><span class="t-de">Diese Herausforderungen führten nicht nur zu einer schlechteren Nutzererfahrung, sondern beeinträchtigten auch die Wettbewerbsfähigkeit des Produkts und führten teilweise zum Verlust potenzieller Aufträge.</span><span class="t-en">These challenges not only led to a poorer user experience, but also impacted the product's competitiveness and in some cases contributed to the loss of potential contracts.</span></p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4><span class="t-de">Prototyping, Prototyping, Prototyping</span><span class="t-en">Prototyping, Prototyping, Prototyping</span></h4>
+            <p><span class="t-de">Nach der Analyse aller Pain Points wurden erste Konzepte erarbeitet, aus denen Prototypen mit unterschiedlichen Annahmen entstanden. Diese wurden in mehreren Testrunden validiert und iterativ weiterentwickelt.</span><span class="t-en">After analysing all pain points, initial concepts were developed, from which prototypes with different assumptions were created. These were validated across multiple test rounds and iteratively refined.</span></p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4><span class="t-de">Lösung</span><span class="t-en">Solution</span></h4>
+            <p><span class="t-de">Entwicklung eines Mobile-First UI Designs mit einem neuen Workflow für Wahlen mit mehreren Stimmzetteln. Unter Beachtung der UX-Heuristiken wurde Progressive Disclosure intensiv eingesetzt sowie Visibility of System Status, Error Prevention und Consistency konsequent umgesetzt. Das Tabellendesign wurde durch ein Kacheldesign ersetzt – übersichtlicher, verständlicher und deutlich zugänglicher für Screenreader-Nutzer:innen. Iterativ wurden Designs für zwei weitere Breakpoints (Tablet und Desktop) mit entsprechender Skalierung entwickelt.</span><span class="t-en">Development of a mobile-first UI design with a new workflow for elections with multiple ballots. Applying UX heuristics, progressive disclosure was used extensively alongside consistent application of visibility of system status, error prevention and consistency. The table-based design was replaced with a tile-based layout – clearer, more intuitive and significantly more accessible for screen reader users. Designs for two additional breakpoints (tablet and desktop) were developed iteratively with appropriate scaling.</span></p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Design System</h4>
+            <p><span class="t-de">Entwicklung eines Design Systems auf Basis der MUI-Bibliothek. Die Figma-Komponentenbibliothek diente als Grundlage für die Implementierung in Storybook – als gemeinsame Quelle der Wahrheit für Design und Entwicklung.</span><span class="t-en">Development of a design system based on the MUI library. The Figma component library served as the foundation for the implementation in Storybook – as a shared source of truth for design and development.</span></p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4><span class="t-de">Umsetzung</span><span class="t-en">Implementation</span></h4>
+            <p><span class="t-de">Die Umsetzung erfolgt in mehreren Schritten: Das MVP ist bereits released und kann von Kunden mit bestimmtem Feature-Setup genutzt werden. Mehrere Pilotkunden haben das System bereits eingesetzt, über 400 Menschen haben damit abgestimmt. Parallel läuft die weitere Entwicklung, um im iterativen Prozess Feature Parity zum alten Client herzustellen. Der vollständige Product Launch ist für Januar 2027 geplant.</span><span class="t-en">Implementation is taking place in multiple stages: the MVP has already been released and can be used by customers with a specific feature setup. Several pilot customers have already used the system, with over 400 people having cast their votes. Parallel development continues to iteratively achieve feature parity with the old client. The full product launch is planned for January 2027.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <p class="modal-section-label" style="margin-top:2.5rem;">Design</p>
+      <div style="margin:2rem 0;">
+        <img src="voting-shot.png" alt="POLYAS New Voting Client – Screens" style="width:100%;height:auto;display:block;border-radius:8px;">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 Margarita Udovychenko</span>
+      <span class="footer-sep">·</span>
+      <a href="index.html" class="t-de">Home</a>
+      <a href="index.html" class="t-en">Home</a>
+      <span class="footer-sep">·</span>
+      <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+      <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <span class="footer-sep">·</span>
+      <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
+      <span class="footer-sep">·</span>
+      <a href="mailto:margarita.udovichenko@gmail.com">margarita.udovichenko@gmail.com</a>
+    </div>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      const html = document.documentElement;
+      if (lang === 'en') { html.classList.add('lang-en'); html.lang = 'en'; }
+      else { html.classList.remove('lang-en'); html.lang = 'de'; }
+      localStorage.setItem('lang', lang);
+      ['btn-de','btn-en','btn-de-m','btn-en-m'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.classList.toggle('active', (id.includes('de') && lang==='de') || (id.includes('en') && lang==='en'));
+      });
+    }
+    (function() {
+      const saved = localStorage.getItem('lang') || 'de';
+      ['btn-de','btn-en','btn-de-m','btn-en-m'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.classList.toggle('active', (id.includes('de') && saved==='de') || (id.includes('en') && saved==='en'));
+      });
+    })();
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+    function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+    function closeMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('mobile-menu');
+      const hamburger = document.getElementById('hamburger');
+      if (!menu.contains(e.target) && !hamburger.contains(e.target)) closeMenu();
+    });
+  </script>
+</body>
+</html>

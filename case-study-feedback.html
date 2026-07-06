@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="de">
+<script>
+  (function(){var l=localStorage.getItem('lang');if(l==='en'){document.documentElement.classList.add('lang-en');document.documentElement.lang='en';}})();
+</script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Feedback Process – Margarita Udovychenko</title>
+  <meta name="description" content="Case Study: Establishing a New Feedback Process at POLYAS. Structured feedback collection, RICE prioritization, Jira setup.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; color-scheme: dark; }
+
+    :root {
+      --pink:      #E8185D;
+      --pink-dark: #C4134F;
+      --black:     #111111;
+      --off-white: #EDEAE5;
+      --warm-gray: #D6D2CC;
+      --mid-gray:  #888480;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--off-white);
+      background: #111;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .t-en, .b-en { display: none; }
+    html.lang-en .t-de { display: none; }
+    html.lang-en .b-de { display: none; }
+    html.lang-en .t-en { display: inline; }
+    html.lang-en .b-en { display: block; }
+    span.badge.t-en { display: none; }
+    span.badge.t-de { display: inline-flex; }
+    html.lang-en span.badge.t-de { display: none; }
+    html.lang-en span.badge.t-en { display: inline-flex; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(17,17,17,0.95);
+      backdrop-filter: blur(12px);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(237,234,229,0.97);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--warm-gray);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.05rem; font-weight: 900;
+      color: var(--off-white); text-decoration: none;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    nav.scrolled .nav-logo { color: var(--black); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      color: var(--off-white); text-decoration: none;
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    nav.scrolled .nav-links a { color: var(--black); }
+    nav.scrolled .nav-links a:hover { color: var(--pink); }
+    .lang-switcher {
+      display: flex; gap: 2px;
+      background: var(--warm-gray);
+      padding: 3px; border-radius: 4px;
+    }
+    .lang-btn {
+      padding: 3px 10px; border-radius: 2px;
+      font-size: 1rem; font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; border: none;
+      background: transparent; color: var(--black);
+      letter-spacing: 0.08em; transition: all 0.2s;
+    }
+    .lang-btn.active { background: var(--pink); color: #fff; }
+    .lang-btn:not(.active):hover { color: var(--pink); }
+    .hamburger {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 4px; color: var(--off-white);
+    }
+    nav.scrolled .hamburger { color: var(--black); }
+    .mobile-menu {
+      display: none; position: absolute;
+      top: 60px; left: 0; right: 0;
+      background: var(--off-white);
+      border-top: 2px solid var(--pink);
+      padding: 0.5rem 1rem 1rem;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block; padding: 0.75rem 0.5rem;
+      color: var(--black); text-decoration: none;
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      border-bottom: 1px solid var(--warm-gray);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--pink); }
+    .mobile-menu a.t-en { display: none; }
+    html.lang-en .mobile-menu a.t-de { display: none; }
+    html.lang-en .mobile-menu a.t-en { display: block; }
+
+    .cs-back {
+      margin-top: 60px;
+      background: #0d0d0d;
+      padding: 0.85rem 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .cs-back a {
+      color: var(--mid-gray); text-decoration: none;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      transition: color 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .cs-back a:hover { color: var(--pink); }
+
+    .cs-hero {
+      background: #1A1A1A;
+      border-bottom: 2px solid var(--pink);
+      padding: 3.5rem 2rem 3rem;
+    }
+    .cs-hero-inner, .cs-body { max-width: 860px; margin: 0 auto; }
+    .cs-body { padding: 3rem 2rem 5rem; }
+
+    .modal-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 0.75rem;
+    }
+    .modal-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 900; text-transform: uppercase;
+      color: var(--off-white); line-height: 0.95;
+      letter-spacing: -0.01em; margin-bottom: 1.5rem;
+    }
+    .modal-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .badge {
+      display: inline-flex; align-items: center;
+      padding: 0.2rem 0.65rem;
+      font-size: 1rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: transparent; color: var(--off-white);
+      border: 1px solid rgba(255,255,255,0.15);
+      white-space: nowrap;
+    }
+
+    .modal-section { margin-bottom: 3rem; }
+    .modal-section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .modal-section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem; font-weight: 800;
+      text-transform: uppercase; color: var(--off-white);
+      margin-bottom: 0.75rem; letter-spacing: 0.02em;
+    }
+    .modal-text { font-size: 1rem; line-height: 1.85; color: var(--off-white); }
+    .modal-text + .modal-text { margin-top: 1rem; }
+
+    .modal-grid-2 { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+    @media (min-width: 600px) { .modal-grid-2 { grid-template-columns: 1fr 1fr; } }
+    .modal-card { background: #1A1A1A; padding: 1.5rem; border-top: 2px solid var(--pink); }
+    .modal-card h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      text-transform: uppercase; color: var(--off-white);
+      margin-bottom: 0.5rem; letter-spacing: 0.05em;
+    }
+    .modal-card p { font-size: 1rem; color: var(--off-white); line-height: 1.65; }
+
+    .process-steps { display: grid; gap: 0; }
+    .process-step {
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .process-step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem; font-weight: 900;
+      color: var(--pink); line-height: 1;
+      min-width: 2rem; text-align: center; opacity: 0.6;
+    }
+    .step-content h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      text-transform: uppercase; color: var(--off-white);
+      margin-bottom: 0.3rem; letter-spacing: 0.05em;
+    }
+    .step-content p { font-size: 1rem; color: var(--off-white); line-height: 1.65; }
+
+    .result-stat {
+      display: flex; align-items: baseline; gap: 0.75rem;
+      padding: 1.25rem; background: #1A1A1A;
+      border-left: 3px solid var(--pink); margin-bottom: 0.75rem;
+    }
+    .result-stat .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.5rem; font-weight: 900;
+      color: var(--pink); line-height: 1; white-space: nowrap;
+    }
+    .result-stat .stat-label { font-size: 1rem; color: var(--off-white); line-height: 1.5; }
+
+    footer {
+      background: var(--black);
+      border-top: 2px solid var(--pink);
+      color: rgba(237,234,229,0.5);
+      padding: 1.25rem 2rem;
+    }
+    .footer-inner {
+      display: flex; flex-wrap: wrap;
+      align-items: center; gap: 0.5rem 1.25rem; font-size: 1rem;
+    }
+    .footer-copy { color: rgba(237,234,229,0.4); }
+    .footer-sep { color: rgba(237,234,229,0.2); }
+    .footer-inner a { color: var(--off-white); text-decoration: none; transition: color 0.2s; }
+    .footer-inner a:hover { color: var(--pink); }
+
+    @media (max-width: 767px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .nav-mobile-right { display: flex; align-items: center; gap: 0.75rem; }
+      .cs-back { padding: 0.85rem 1.25rem; }
+      .cs-hero { padding: 2.5rem 1.25rem 2.5rem; }
+      .cs-body { padding: 2rem 1.25rem 4rem; }
+    }
+    @media (min-width: 768px) { .nav-mobile-right { display: none; } }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Margarita Udovychenko</a>
+      <div class="nav-links">
+        <a href="about.html" class="t-de">Über mich</a>
+        <a href="about.html" class="t-en">About</a>
+        <a href="index.html#projects" class="t-de">Case Studies</a>
+        <a href="index.html#projects" class="t-en">Case Studies</a>
+        <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+        <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+        <a href="mailto:margarita.udovichenko@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <div class="lang-switcher">
+          <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+      <div class="nav-mobile-right">
+        <div class="lang-switcher">
+          <button class="lang-btn active" id="btn-de-m" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="btn-en-m" onclick="setLang('en')">EN</button>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="about.html" class="t-de">Über mich</a>
+      <a href="about.html" class="t-en">About</a>
+      <a href="index.html#projects" onclick="closeMenu()">Case Studies</a>
+      <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+      <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <a href="mailto:margarita.udovichenko@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+
+  <div class="cs-back">
+    <a href="index.html#projects">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span class="t-de">Zurück zum Portfolio</span>
+      <span class="t-en">Back to Portfolio</span>
+    </a>
+  </div>
+
+  <div class="cs-hero">
+    <div class="cs-hero-inner">
+      <p class="modal-eyebrow">03 / 03 &nbsp;·&nbsp; POLYAS</p>
+      <h1 class="modal-title">
+        <span class="t-de">Neuer Feedback&shy;prozess</span>
+        <span class="t-en">New Feedback Process</span>
+      </h1>
+      <div class="modal-tags">
+        <span class="badge t-de">Workshop-Moderation</span>
+        <span class="badge t-en">Workshop Facilitation</span>
+        <span class="badge t-de">Prozessdesign</span>
+        <span class="badge t-en">Process Design</span>
+        <span class="badge t-de">RICE-Priorisierung</span>
+        <span class="badge t-en">RICE Prioritization</span>
+        <span class="badge">Jira</span>
+        <span class="badge">Stakeholder Management</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-body">
+
+    <!-- Impact -->
+    <div class="modal-section">
+      <p class="modal-section-label">Impact</p>
+      <div class="result-stat">
+        <span class="stat-num">✓</span>
+        <span class="stat-label t-de">Zentrale Feedback-Anlaufstelle – ein Kanal für alle Teams</span>
+        <span class="stat-label t-en">Central feedback hub – one channel for all teams</span>
+      </div>
+      <div class="result-stat">
+        <span class="stat-num">✓</span>
+        <span class="stat-label t-de">RICE-Priorisierung als Standard im gesamten Produktteam etabliert</span>
+        <span class="stat-label t-en">RICE prioritization established as standard across the entire product team</span>
+      </div>
+      <div class="result-stat">
+        <span class="stat-num">✓</span>
+        <span class="stat-label t-de">Höhere Transparenz und Zufriedenheit bei Team &amp; Kunden</span>
+        <span class="stat-label t-en">Higher transparency and satisfaction across team &amp; customers</span>
+      </div>
+    </div>
+
+    <!-- Kontext -->
+    <div class="modal-section">
+      <p class="modal-section-label">
+        <span class="t-de">Kontext &amp; Problem</span>
+        <span class="t-en">Context &amp; Problem</span>
+      </p>
+      <h2 class="modal-section-title">
+        <span class="t-de">Ausgangssituation</span>
+        <span class="t-en">Starting Point</span>
+      </h2>
+      <p class="modal-text">
+        <span class="t-de">Bei POLYAS fehlte ein strukturierter Prozess zur Sammlung und Priorisierung von Feedback. Dabei floss Feedback aus drei Quellen ein: Bestandskunden geben ihr Feedback über ihre zuständigen Manager weiter, SaaS-Kunden können direkt im Produkt über Umfragen Feedback abgeben – und intern bringen Teams wie Sales, Customer Success und Support täglich Rückmeldungen aus dem Kundenkontakt mit. All das kam ungefiltert und über verschiedene Kanäle ins Produktteam: ohne klare Priorisierung, ohne Transparenz für Stakeholder und ohne gemeinsame Sprache für Entscheidungen.</span>
+        <span class="t-en">At POLYAS, there was no structured process for collecting and prioritizing feedback. Feedback came from three sources: existing customers pass their feedback through their dedicated account managers, SaaS customers can submit feedback directly in the product via surveys – and internally, teams like Sales, Customer Success and Support bring daily insights from customer interactions. All of it reached the product team unfiltered, through various channels: without clear prioritization, without transparency for stakeholders, and without a shared language for decision-making.</span>
+      </p>
+      <div style="margin:1.5rem 0; border-radius:8px; overflow:hidden; line-height:0; border-left:3px solid var(--pink);">
+        <img src="feedback-before.png" alt="Ausgangssituation – unstrukturierter Feedback-Prozess" class="b-de" style="width:100%;height:auto;">
+        <img src="feedback-before-en.png" alt="Starting Point – unstructured feedback process" class="b-en" style="width:100%;height:auto;">
+      </div>
+    </div>
+
+    <!-- Meine Rolle -->
+    <div class="modal-section">
+      <p class="modal-section-label">
+        <span class="t-de">Meine Rolle</span>
+        <span class="t-en">My Role</span>
+      </p>
+      <div class="modal-grid-2">
+        <div class="modal-card">
+          <h4><span class="t-de">Verantwortung</span><span class="t-en">Responsibility</span></h4>
+          <p><span class="t-de">Initiierung, Konzeption und Einführung eines strukturierten Feedback-Prozesses. Moderation von Stakeholder-Workshops, Definition des Zielprozesses und Implementierung eines skalierbaren Jira-Workflows zur systematischen Erfassung, Priorisierung und Bearbeitung von Nutzerfeedback.</span><span class="t-en">Initiation, concept and rollout of a structured feedback process. Facilitation of stakeholder workshops, definition of the target process and implementation of a scalable Jira workflow for systematic collection, prioritization and handling of user feedback.</span></p>
+        </div>
+        <div class="modal-card">
+          <h4><span class="t-de">Beteiligte Teams</span><span class="t-en">Teams Involved</span></h4>
+          <p><span class="t-de">Leadership, Product Management, Customer Success, Sales, Support, Entwicklungsteam und Bestandskunden.</span><span class="t-en">Leadership, Product Management, Customer Success, Sales, Support, Development team and existing customers.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prozess -->
+    <div class="modal-section">
+      <p class="modal-section-label">
+        <span class="t-de">Prozess</span>
+        <span class="t-en">Process</span>
+      </p>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4><span class="t-de">Ist-Analyse &amp; Stakeholder-Interviews</span><span class="t-en">Current State Analysis &amp; Stakeholder Interviews</span></h4>
+            <p><span class="t-de">Zu Beginn habe ich Einzelgespräche mit allen beteiligten Teams geführt – Customer Success, Sales, Support, Product Management und Leadership. Ziel war es, zu verstehen, wie Feedback aktuell aufgenommen wird, wo es verloren geht und was sich die Teams von einem neuen Prozess erhoffen. Die Ergebnisse zeigten ein klares Bild: Feedback kam über E-Mail, Slack, mündliche Weitergabe und sporadische Jira-Tickets – ohne gemeinsame Struktur oder Priorisierungslogik.</span><span class="t-en">I started by conducting one-on-one conversations with all involved teams – Customer Success, Sales, Support, Product Management and Leadership. The goal was to understand how feedback was currently being captured, where it was getting lost, and what each team hoped a new process would achieve. The findings painted a clear picture: feedback was coming in via email, Slack, verbal handovers and sporadic Jira tickets – with no shared structure or prioritization logic.</span></p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4><span class="t-de">Workshop-Serie</span><span class="t-en">Workshop Series</span></h4>
+            <p><span class="t-de">Auf Basis der Interview-Erkenntnisse habe ich eine Workshop-Serie moderiert, an der Vertreter:innen aller Teams teilnahmen. In den Workshops haben wir gemeinsam den neuen Prozess definiert: Wer gibt Feedback weiter? Über welchen Kanal? Wer ist verantwortlich für die Sichtung? Welche Kriterien entscheiden über Priorität? Durch die gemeinsame Erarbeitung entstand nicht nur ein funktionierender Prozess – sondern auch echtes Ownership und Akzeptanz bei allen Beteiligten.</span><span class="t-en">Building on the interview insights, I facilitated a workshop series with representatives from all teams. Together, we defined the new process: Who passes on feedback? Through which channel? Who is responsible for reviewing it? What criteria determine priority? By developing it collaboratively, we didn't just create a working process – we also built genuine ownership and buy-in from everyone involved.</span></p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4><span class="t-de">RICE-Priorisierung</span><span class="t-en">RICE Prioritization</span></h4>
+            <p><span class="t-de">Ein zentrales Problem war fehlende Objektivität bei der Bewertung von Feedback: Lautes Feedback wurde oft höher priorisiert als wichtiges. Als gemeinsame Sprache für Priorisierungsentscheidungen haben wir das RICE-Framework eingeführt – Reach (wie viele Nutzer:innen sind betroffen?), Impact (welchen Einfluss hat die Lösung?), Confidence (wie sicher sind wir uns?) und Effort (wie viel Aufwand ist nötig?). Das Framework wurde in einem internen Workshop mit dem gesamten Produktteam eingeführt und auf bestehende Feedback-Items angewendet.</span><span class="t-en">A core problem was the lack of objectivity in evaluating feedback: loud feedback was often prioritized over important feedback. To create a shared language for prioritization decisions, we introduced the RICE framework – Reach (how many users are affected?), Impact (what effect does the solution have?), Confidence (how certain are we?) and Effort (how much work is required?). The framework was introduced in an internal workshop with the entire product team and applied to existing feedback items.</span></p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Jira Board Setup</h4>
+            <p><span class="t-de">Als technische Grundlage des neuen Prozesses habe ich ein dediziertes Jira-Board aufgebaut – als Single Source of Truth für sämtliches gesammeltes Feedback. Das Board umfasst klar definierte Workflows (Neu → Sichtung → Bewertung → Entschieden), ein einheitliches Label-System zur Kategorisierung nach Produkt, Thema und Quelle sowie automatisierte Statusübergänge. Alle Teams wurden im Umgang mit dem Board geschult, und es wurde ein fester Review-Rhythmus etabliert, in dem Feedback regelmäßig gesichtet und priorisiert wird.</span><span class="t-en">As the technical foundation of the new process, I set up a dedicated Jira board – as the single source of truth for all collected feedback. The board includes clearly defined workflows (New → Review → Evaluation → Decision), a consistent label system for categorization by product, topic and source, as well as automated status transitions. All teams were trained on how to use the board, and a regular review cadence was established to ensure feedback is consistently reviewed and prioritized.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <p class="modal-section-label" style="margin-top:2.5rem;">
+        <span class="t-de">Ergebnis (Jira-Board)</span>
+        <span class="t-en">Result (Jira Board)</span>
+      </p>
+      <div style="margin:2rem 0; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); border-radius:12px; padding:2.5rem 2rem; display:flex; justify-content:center;">
+        <img src="feedback-after-macbook.png" alt="POLYAS Feedback Kanban Board" style="width:100%;max-width:640px;height:auto;display:block;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.5));">
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 Margarita Udovychenko</span>
+      <span class="footer-sep">·</span>
+      <a href="index.html" class="t-de">Home</a>
+      <a href="index.html" class="t-en">Home</a>
+      <span class="footer-sep">·</span>
+      <a href="cv-de.pdf" target="_blank" class="t-de">Lebenslauf</a>
+      <a href="cv-en.pdf" target="_blank" class="t-en">Resume</a>
+      <span class="footer-sep">·</span>
+      <a href="https://www.linkedin.com/in/margarita-udovychenko-8b370871" target="_blank" rel="noopener">LinkedIn</a>
+      <span class="footer-sep">·</span>
+      <a href="mailto:margarita.udovichenko@gmail.com">margarita.udovichenko@gmail.com</a>
+    </div>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      const html = document.documentElement;
+      if (lang === 'en') { html.classList.add('lang-en'); html.lang = 'en'; }
+      else { html.classList.remove('lang-en'); html.lang = 'de'; }
+      localStorage.setItem('lang', lang);
+      ['btn-de','btn-en','btn-de-m','btn-en-m'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.classList.toggle('active', (id.includes('de') && lang==='de') || (id.includes('en') && lang==='en'));
+      });
+    }
+    (function() {
+      const saved = localStorage.getItem('lang') || 'de';
+      ['btn-de','btn-en','btn-de-m','btn-en-m'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.classList.toggle('active', (id.includes('de') && saved==='de') || (id.includes('en') && saved==='en'));
+      });
+    })();
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+    function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+    function closeMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('mobile-menu');
+      const hamburger = document.getElementById('hamburger');
+      if (!menu.contains(e.target) && !hamburger.contains(e.target)) closeMenu();
+    });
+  </script>
+</body>
+</html>
